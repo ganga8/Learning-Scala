@@ -1,0 +1,13 @@
+package com.maven
+import org.apache.spark.SparkConf
+import org.apache.spark.SparkContext
+import org.apache.spark.SparkContext._
+object demo extends App{
+		val conf = new SparkConf()setAppName("wc")
+		val sc:SparkContext = new SparkContext(conf)
+		val text = sc.textFile("README.md")
+		val count = text.flatMap(line=>line.split(" ")).map(word=>(word,1)).reduceByKey(_+_)
+		for(i <- count.collect){
+			println(i)
+		}
+}
